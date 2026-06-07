@@ -3,6 +3,8 @@
 A sleek, interactive portfolio. Dark, animated, and built to grow as Vitor ships
 more work.
 
+**Live:** https://vitorluizpaz.github.io/portfolio/
+
 **Stack:** React 19 · TypeScript · Vite 8 · Tailwind CSS v4 · Motion
 
 ## Run
@@ -12,6 +14,13 @@ npm install
 npm run dev      # http://localhost:5173
 npm run build    # type-check + production build → dist/
 ```
+
+## Deploy
+
+Pushing to `main` deploys to GitHub Pages via
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). The site is a
+*project* page, so the production build uses `base: "/portfolio/"`
+(see `vite.config.ts`); image paths are rebased through `src/lib/asset.ts`.
 
 ## ✨ Adding a new project
 

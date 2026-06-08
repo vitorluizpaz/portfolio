@@ -8,12 +8,7 @@ import {
 import { ArrowUpRight, Expand, Github } from "lucide-react";
 import type { Project } from "../data/projects";
 import { asset } from "../lib/asset";
-
-const STATUS_LABEL: Record<Project["status"], string> = {
-  live: "Live",
-  wip: "In progress",
-  archived: "Archived",
-};
+import { useSettings } from "../settings";
 
 export default function ProjectCard({
   project,
@@ -25,6 +20,8 @@ export default function ProjectCard({
   /** open the lightbox for this project at the given shot index */
   onOpenGallery: (index: number) => void;
 }) {
+  const { lang, t } = useSettings();
+  const statusLabel = { live: t.card.live, wip: t.card.wip, archived: t.card.archived };
   const ref = useRef<HTMLDivElement>(null);
   const rx = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
   const ry = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
@@ -121,7 +118,7 @@ export default function ProjectCard({
                 <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/30 opacity-0 transition-opacity duration-300 group-hover/shot:opacity-100">
                   <span className="flex items-center gap-2 rounded-full bg-paper/95 px-4 py-2 text-sm font-semibold text-ink">
                     <Expand className="h-4 w-4" />
-                    View {gallery.length} shots
+                    {t.card.view(gallery.length)}
                   </span>
                 </span>
                 {/* emoji badge */}
@@ -153,7 +150,7 @@ export default function ProjectCard({
                 className="h-1.5 w-1.5 rounded-full"
                 style={{ background: c2 }}
               />
-              {STATUS_LABEL[project.status]}
+              {statusLabel[project.status]}
             </span>
             <span className="text-muted">{project.year}</span>
           </div>
@@ -165,15 +162,15 @@ export default function ProjectCard({
             className="mt-1 text-sm font-medium"
             style={{ color: c2 }}
           >
-            {project.tagline}
+            {project.tagline[lang]}
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted">
-            {project.description}
+            {project.description[lang]}
           </p>
 
           {/* highlights */}
           <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-            {project.highlights.map((h) => (
+            {project.highlights[lang].map((h) => (
               <li
                 key={h}
                 className="flex items-start gap-2 text-sm text-paper/80"
@@ -189,12 +186,12 @@ export default function ProjectCard({
 
           {/* tech + links */}
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            {project.tech.map((t) => (
+            {project.tech.map((tech) => (
               <span
-                key={t}
+                key={tech}
                 className="rounded-full border border-line bg-white/[0.03] px-2.5 py-1 text-xs text-muted"
               >
-                {t}
+                {tech}
               </span>
             ))}
             <div className="ml-auto flex items-center gap-2">
@@ -219,7 +216,7 @@ export default function ProjectCard({
                     background: `linear-gradient(120deg, ${c1}, ${c2})`,
                   }}
                 >
-                  Open
+                  {t.card.open}
                   <ArrowUpRight className="h-4 w-4" />
                 </Wrapper>
               )}

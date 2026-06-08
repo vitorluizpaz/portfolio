@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowDownRight, Sparkles } from "lucide-react";
 import { projects } from "../data/projects";
+import { useSettings } from "../settings";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -20,6 +21,7 @@ function Word({ children, delay }: { children: string; delay: number }) {
 }
 
 export default function Hero() {
+  const { t } = useSettings();
   return (
     <section
       id="top"
@@ -35,7 +37,7 @@ export default function Hero() {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-lime" />
         </span>
-        Available for frontend work
+        {t.hero.available}
       </motion.div>
 
       <h1 className="font-display text-[15vw] font-bold leading-[0.86] tracking-tighter sm:text-[12vw] lg:text-[9.5rem]">
@@ -62,9 +64,8 @@ export default function Hero() {
           transition={{ duration: 0.7, ease, delay: 0.6 }}
           className="max-w-md text-lg leading-relaxed text-muted"
         >
-          Frontend engineer obsessed with the details most people scroll past —
-          motion, type, and interfaces that feel{" "}
-          <span className="text-paper">alive</span>.
+          {t.hero.taglinePre}
+          <span className="text-paper">{t.hero.taglineEm}</span>.
         </motion.p>
 
         <motion.div
@@ -77,14 +78,14 @@ export default function Hero() {
             href="#work"
             className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-iris to-cyan px-6 py-3 font-semibold text-ink transition-transform hover:scale-[1.03]"
           >
-            See the work
+            {t.hero.cta}
             <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
           </a>
           <div className="text-sm text-muted">
             <span className="block font-display text-2xl text-paper">
               {projects.length.toString().padStart(2, "0")}
             </span>
-            projects
+            {t.hero.projects}
           </div>
         </motion.div>
       </div>

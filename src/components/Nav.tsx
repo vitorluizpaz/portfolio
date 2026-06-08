@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-
-const LINKS = [
-  { href: "#work", label: "Work" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
+import { Moon, Sun } from "lucide-react";
+import { useSettings } from "../settings";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { t, lang, toggleLang, theme, toggleTheme } = useSettings();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -16,6 +13,12 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const links = [
+    { href: "#work", label: t.nav.work },
+    { href: "#about", label: t.nav.about },
+    { href: "#contact", label: t.nav.contact },
+  ];
 
   return (
     <motion.header
@@ -40,20 +43,60 @@ export default function Nav() {
         </a>
 
         <div className="flex items-center gap-1">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-paper"
+          <div className="hidden md:flex">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded-full px-3 py-1.5 text-sm text-muted transition-colors hover:text-paper"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          {/* language toggle */}
+          <button
+            onClick={toggleLang}
+            aria-label={t.a11y.lang}
+            title={t.a11y.lang}
+            className="flex items-center rounded-full border border-line p-0.5 text-xs font-semibold"
+          >
+            <span
+              className={`rounded-full px-2 py-1 transition-colors ${
+                lang === "en" ? "bg-paper text-ink" : "text-muted"
+              }`}
             >
-              {l.label}
-            </a>
-          ))}
+              EN
+            </span>
+            <span
+              className={`rounded-full px-2 py-1 transition-colors ${
+                lang === "pt" ? "bg-paper text-ink" : "text-muted"
+              }`}
+            >
+              PT
+            </span>
+          </button>
+
+          {/* theme toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label={t.a11y.theme}
+            title={t.a11y.theme}
+            className="grid h-8 w-8 place-items-center rounded-full border border-line text-muted transition-colors hover:text-paper"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
+          </button>
+
           <a
             href="#contact"
-            className="ml-1 rounded-full bg-paper px-4 py-1.5 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
+            className="ml-1 hidden rounded-full bg-paper px-4 py-1.5 text-sm font-semibold text-ink transition-transform hover:scale-[1.03] sm:inline-block"
           >
-            Hire
+            {t.nav.hire}
           </a>
         </div>
       </nav>

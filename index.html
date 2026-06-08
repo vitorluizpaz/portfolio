@@ -19,6 +19,25 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Apply saved theme/language before paint to avoid a flash.
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t)
+            t = matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+          if (t === "light") document.documentElement.classList.add("light");
+          var l = localStorage.getItem("lang");
+          if (l !== "en" && l !== "pt")
+            l = (navigator.language || "en").toLowerCase().indexOf("pt") === 0
+              ? "pt"
+              : "en";
+          document.documentElement.lang = l === "pt" ? "pt-BR" : "en";
+        } catch (e) {}
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

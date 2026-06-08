@@ -1,13 +1,15 @@
 import { motion } from "motion/react";
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import { useSettings } from "../settings";
 
 const SOCIALS = [
   { label: "Email", href: "mailto:hello@vitorpaz.dev", Icon: Mail },
-  { label: "GitHub", href: "https://github.com/", Icon: Github },
+  { label: "GitHub", href: "https://github.com/vitorluizpaz", Icon: Github },
   { label: "LinkedIn", href: "https://linkedin.com/", Icon: Linkedin },
 ];
 
 export default function Contact() {
+  const { t } = useSettings();
   return (
     <section
       id="contact"
@@ -23,19 +25,18 @@ export default function Contact() {
         <div className="mesh absolute inset-0 opacity-40" />
         <div className="relative">
           <p className="font-display text-sm uppercase tracking-[0.3em] text-iris">
-            Let's build something
+            {t.contact.kicker}
           </p>
-          <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-bold leading-[0.95] tracking-tighter sm:text-7xl">
-            Got an idea that
-            <br />
-            deserves to feel <span className="text-gradient">amazing</span>?
+          <h2 className="mx-auto mt-5 max-w-3xl whitespace-pre-line font-display text-4xl font-bold leading-[0.95] tracking-tighter sm:text-7xl">
+            {t.contact.titlePre}
+            <span className="text-gradient">{t.contact.titleEm}</span>?
           </h2>
 
           <a
             href="mailto:hello@vitorpaz.dev"
             className="group mt-10 inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3.5 font-semibold text-ink transition-transform hover:scale-[1.03]"
           >
-            Start a conversation
+            {t.contact.cta}
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 

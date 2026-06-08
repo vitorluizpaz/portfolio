@@ -1,18 +1,15 @@
 import { motion } from "motion/react";
-
-const STATS = [
-  { k: "∞", v: "attention to detail" },
-  { k: "0", v: "janky frames shipped" },
-  { k: "100%", v: "hand-crafted UI" },
-];
+import { useSettings } from "../settings";
 
 export default function About() {
+  const { t } = useSettings();
+  const STATS = t.about.stats;
   return (
     <section id="about" className="relative mx-auto max-w-6xl px-5 py-24">
       <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-center">
         <div>
           <span className="font-display text-sm uppercase tracking-[0.3em] text-cyan">
-            About
+            {t.about.kicker}
           </span>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -21,11 +18,10 @@ export default function About() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mt-5 font-display text-2xl leading-snug tracking-tight sm:text-3xl"
           >
-            I'm <span className="text-gradient">Vitor</span> — a frontend
-            engineer who treats the browser like a canvas. I sweat the
-            micro-interactions, the easing curves, the empty states. The boring
-            stuff done right is what makes the cool stuff feel{" "}
-            <span className="text-iris">effortless</span>.
+            {t.about.bodyPre}
+            <span className="text-gradient">{t.about.bodyName}</span>
+            {t.about.bodyMid}
+            <span className="text-iris">{t.about.bodyEm}</span>.
           </motion.p>
         </div>
 

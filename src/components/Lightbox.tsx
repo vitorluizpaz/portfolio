@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { Shot } from "../data/projects";
 import { asset } from "../lib/asset";
+import { useSettings } from "../settings";
 
 const SLIDE = {
   enter: (d: number) => ({ opacity: 0, x: d * 60 }),
@@ -25,6 +26,7 @@ export default function Lightbox({
   state: LightboxState | null;
   onClose: () => void;
 }) {
+  const { lang } = useSettings();
   const [i, setI] = useState(0);
   const [dir, setDir] = useState(1);
 
@@ -120,7 +122,7 @@ export default function Lightbox({
                 <motion.img
                   key={shot.src}
                   src={asset(shot.src)}
-                  alt={shot.caption}
+                  alt={shot.caption[lang]}
                   custom={dir}
                   variants={SLIDE}
                   initial="enter"
@@ -150,7 +152,7 @@ export default function Lightbox({
             onClick={(e) => e.stopPropagation()}
           >
             <p className="mb-4 text-center text-sm text-muted">
-              {shot.caption}
+              {shot.caption[lang]}
             </p>
             <div className="flex justify-center gap-2 overflow-x-auto pb-1">
               {state.shots.map((s, idx) => (
@@ -165,7 +167,7 @@ export default function Lightbox({
                     borderColor: idx === i ? c2 : "transparent",
                     opacity: idx === i ? 1 : 0.45,
                   }}
-                  aria-label={`View ${s.caption}`}
+                  aria-label={s.caption[lang]}
                 >
                   <img
                     src={asset(s.src)}

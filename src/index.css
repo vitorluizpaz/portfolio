@@ -21,6 +21,19 @@
   color-scheme: dark;
 }
 
+/* Light theme: re-map the semantic tokens. Because every utility resolves to a
+   CSS variable (bg-ink → var(--color-ink), text-paper → var(--color-paper), …),
+   flipping these values flips the whole site. Accent hues stay the same. */
+html.light {
+  color-scheme: light;
+  --color-ink: #f6f6f8; /* page background */
+  --color-ink-soft: #ffffff; /* cards / panels */
+  --color-paper: #14141a; /* primary text */
+  --color-muted: #5b5b6b; /* secondary text */
+  --color-line: #e3e3ea; /* borders / grid */
+  --color-iris: #6b46ff;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -97,6 +110,17 @@ body {
     background: color-mix(in srgb, #ffffff 4%, transparent);
     border: 1px solid color-mix(in srgb, #ffffff 8%, transparent);
     backdrop-filter: blur(12px);
+  }
+  html.light .glass {
+    background: color-mix(in srgb, #ffffff 70%, transparent);
+    border: 1px solid color-mix(in srgb, #000000 8%, transparent);
+    box-shadow: 0 8px 30px -12px color-mix(in srgb, #000 25%, transparent);
+  }
+
+  /* Grain is an overlay-blend that reads as harsh on a light backdrop. */
+  html.light .grain::before {
+    opacity: 0.12;
+    mix-blend-mode: multiply;
   }
 
   /* slow marquee */
